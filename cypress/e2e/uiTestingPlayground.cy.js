@@ -67,10 +67,71 @@ describe('UItestingPlaygorund', () => {
             cy.get('#updatingButton').should("have.text", "New Name")
         });
 
-        it.only('ScrollBars', () => {
+        it('ScrollBars', () => {
             cy.contains("Scrollbars").click()
             cy.get('[style="height:150px;overflow-y: scroll;width:300px;overflow-x:scroll"]').scrollTo("center")
             cy.get('#hidingButton').should("be.visible").click()
         });
+
+        it('Dynamic tables', () => {
+            cy.contains("Dynamic Table").click()
+            // element in yellow is not found
+        });
+
+        it('Verify Text', () => {
+            cy.contains("Verify Text").click()
+            cy.get(".bg-primary").contains("Welcome UserName!").should("be.visible")
+        });
+
+        it('Progress Bar', () => {
+            cy.contains("Progress Bar").click()
+            cy.get('#startButton').click()
+            if (cy.get('#progressBar').contains("75%", { timeout: 30000 })) {
+              cy.get('#stopButton').click()
+            }
+        });
+
+        it('Visibility', () => {
+            cy.contains("Visibility").click()
+            cy.get('#removedButton').should("be.visible")
+            cy.get('#zeroWidthButton').should("be.visible")
+            cy.get('#overlappedButton').should("be.visible")
+
+            cy.get('#hideButton').click()
+
+            cy.get('#removedButton').should("not.exist"); // Verifica que el botón no existe en el DOM
+            cy.get('#zeroWidthButton').should("not.be.visible");
+            cy.get('#overlappedButton').should("be.visible"); // is visible but it is covered
+        });
+
+        it('Sample App login', () => {
+            cy.contains("Sample App").click()
+            cy.get('input').first().type("TrollHunter")
+            cy.get("input").eq(1).type("pwd")
+            cy.get('#login').click()
+            cy.contains("Welcome, TrollHunter!").should("be.visible")
+        });
+
+        it('Mouse Over', () => {
+            cy.contains("Mouse Over").click()
+            cy.get('.text-primary').dblclick()
+        });
+
+        it('Non breking space', () => {
+            cy.contains("Non").click()
+            cy.get("button[class='btn btn-primary']").click()
+        });
+
+        it('Overlapped Element', () => {
+            cy.contains("Overlapped").click()
+            cy.get('#id').type("12345")
+            cy.get('[style="overflow-y: scroll; height:100px;"]').scrollTo("bottom")
+            cy.get('#name').type("Vittorem")
+        });
+
+        // it.only('Shadow DOM', () => {
+        //     cy.contains("Shadow").click()
+        //     cy.get('guid-generator').mouse
+        // });
     });
 
